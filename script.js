@@ -9,24 +9,27 @@ contactForm.addEventListener('submit', function(e) {
     };
 
     // Sending data to your Python backend
-    fetch('http://127.0.0.1:5000/send-email', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
+    // Change the URL from 127.0.0.1 to your live Render link
+fetch('https://portfolio-backend-py.onrender.com/send-email', { 
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+        email: email,      // Ensure these variable names match your form inputs
+        message: message
     })
-    .then(response => response.json())
-    .then(data => {
-        if(data.status === 'success') {
-            alert("Message sent successfully 😊!");
-            contactForm.reset();
-        } else {
-            alert("Error: " + data.message);
-        }
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-        alert("Make sure your Python server is running!");
-    });
+})
+.then(response => {
+    if (response.ok) {
+        alert("Message sent successfully!");
+        contactForm.reset();
+    } else {
+        alert("Server error. Please try again later.");
+    }
+})
+.catch(error => {
+    // This is the part that was showing the error in your screenshot!
+    console.error('Error:', error);
+    alert("Make sure your Python server is running!"); 
 });
