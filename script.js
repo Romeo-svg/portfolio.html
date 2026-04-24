@@ -3,33 +3,33 @@ const contactForm = document.getElementById('contact-form');
 contactForm.addEventListener('submit', function(e) {
     e.preventDefault(); // Stop the page from reloading
 
+    // Collect data from the form inputs
     const formData = {
         email: document.querySelector('input[name="email"]').value,
         message: document.querySelector('textarea[name="message"]').value
     };
 
-    // Sending data to your Python backend
-    // Change the URL from 127.0.0.1 to your live Render link
-fetch('https://portfolio-backend-py.onrender.com/send-email', { 
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-        email: email,      // Ensure these variable names match your form inputs
-        message: message
+    // Send data to your LIVE Render backend
+    fetch('https://portfolio-backend-py.onrender.com/send-email', { 
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            email: formData.email,   // Corrected: pulling from formData object
+            message: formData.message
+        })
     })
-})
-.then(response => {
-    if (response.ok) {
-        alert("Message sent successfully!");
-        contactForm.reset();
-    } else {
-        alert("Server error. Please try again later.");
-    }
-})
-.catch(error => {
-    // This is the part that was showing the error in your screenshot!
-    console.error('Error:', error);
-    alert("Make sure your Python server is running!"); 
+    .then(response => {
+        if (response.ok) {
+            alert("Message sent successfully!");
+            contactForm.reset();
+        } else {
+            alert("Server error. Check if your Render App Password is set.");
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert("Could not connect to the server. It might be 'sleeping'—wait 30 seconds and try again!"); 
+    });
 });
