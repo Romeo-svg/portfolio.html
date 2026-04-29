@@ -10,7 +10,7 @@ contactForm.addEventListener('submit', function(e) {
     };
 
     // Send data to your LIVE Render backend
-    fetch('https://portfolio-backend-py.onrender.com/send-email', { 
+    fetch('https://portfolio-backend-py-1.onrender.com/send-email', { 
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
